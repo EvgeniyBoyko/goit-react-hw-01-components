@@ -1,9 +1,17 @@
-import React from 'react'
-import transactions from './transactions.json';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './TransactionHistory.module.css';
 
-const TransactionHistory = () => {
+const Transaction = ({type,amount,currency}) => {
+    return (<tr className={styles.trItem}>
+        <td className={styles.tdItem}>{type}</td>
+        <td className={styles.tdItem}>{amount}</td>
+        <td className={styles.tdItem}>{currency}</td>
+    </tr>)
+};
+
+const TransactionHistory = ({props}) => {
+    const transactionMarkup = props.map((prop) => <Transaction {...prop} key={prop.id} />);
     return (<>
         <table className={styles.transactionHistory}>
             <thead className={styles.theadItem}>
@@ -14,28 +22,13 @@ const TransactionHistory = () => {
                 </tr>
             </thead>
             <tbody>
-                <Transaction props={transactions} />
+                {transactionMarkup}
             </tbody>
         </table>
     </>);
 }
  
-const transactionMarkup = transactions.map(({ id, type, amount, currency }) => (
-    <tr key={id} className={styles.trItem}>
-        <td className={styles.tdItem}>{type}</td>
-        <td className={styles.tdItem}>{amount}</td>
-        <td className={styles.tdItem}>{currency}</td>
-    </tr>));
-
-const Transaction = (props) => {
-    return <>{transactionMarkup}</>
-};
-
 export default TransactionHistory;
-
-// TransactionHistory.defaultProps = {
-
-// };
 
 TransactionHistory.propTypes = {
     type: PropTypes.string.isRequired,
